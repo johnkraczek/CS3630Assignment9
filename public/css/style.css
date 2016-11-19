@@ -1,0 +1,24 @@
+h3.text-center {
+    margin: 4px;
+}
+span.removeTodo {
+    float: right;
+	top:2px;
+}
+span.removeTodo:hover {
+    color: red;
+	cursor: pointer;
+}
+.checked{
+	text-decoration:line-through;
+}
+.list-group-item>.badge{
+	margin-right:7px;
+}
+span.text{
+	color:black!important;
+	margin-left:10px;
+}
+.lineitem{
+	padding-left:5px;
+}

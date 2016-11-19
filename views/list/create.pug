@@ -1,0 +1,36 @@
+extends ../layout
+
+block styles
+	link(href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet")
+	link(href="/css/style.css", rel="stylesheet")
+
+block scripts
+	script(src='/js/todo.js')
+	script.
+		toDoApp.fetchData("#{id}")
+	script(src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js")
+	script(src='/js/lib/toastr.opt.js')
+
+
+block content
+	section#toDoApp
+		div.container
+			div.jumbotron.col-md-8.col-md-offset-2
+				h3.text-center(v-if="title.editState", v-on:click='editTitle') {{title.text + " "}}
+							small
+								span.glyphicon.glyphicon-pencil(aria-hidden='true')
+				.input-group.col-md-4.col-md-offset-4#titleGroup(v-else="title.editState")
+					input.form-control(v-model="title.text", @keyup.enter="editTitle") 
+				.input-group
+					input.form-control(type='text', placeholder="Enter New Item",@keyup.enter="add" v-model="current")
+					span.input-group-addon(v-on:click='add') Add ToDo
+				div.well
+					ul.list-group
+						template( v-for="(todo, index) in todos")
+							li.list-group-item() 
+								span(v-on:click='todo.checked?todo.checked=false:todo.checked=true')
+									span.glyphicon.glyphicon-check(v-if="todo.checked")
+									span.glyphicon.glyphicon-unchecked(v-else)
+									span.lineitem(v-bind:class="{ checked: todo.checked }") {{todo.text}}
+								span.glyphicon.glyphicon-remove.removeTodo(v-on:click='todos.splice(index,1)')
+					button.btn.btn-primary.col-md-4.col-md-offset-4(v-on:click='save') Save list

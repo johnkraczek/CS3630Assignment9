@@ -1,0 +1,16 @@
+extends layout
+
+block styles
+	style.
+		h1 {
+			color:hsl(180,70%,70%);
+		}
+
+block content
+	.container.theme-showcase(role='main')
+		.jumbotron
+			h1 List Application
+			p This is an application for CS3630 it is showcasing node's ability create a full stack website that tracks birthday lists.
+			br
+			a.btn.btn-default(href='/list') View your lists
+			a.btn.btn-default(href='/list/create') Create a new list

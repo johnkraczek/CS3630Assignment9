@@ -1,0 +1,29 @@
+extends ../layout
+
+block styles
+	link(href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet")
+	link(href="/css/style.css", rel="stylesheet")
+
+block scripts
+	script(src='/js/list.js')
+	script.
+		toDoApp.fetchData()
+	script(src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js")
+	script(src='/js/lib/toastr.opt.js')
+
+
+block content
+	section#toDoApp
+		div.container
+			div.jumbotron.col-md-8.col-md-offset-2
+				h3.text-center Your Lists:
+				div.well
+					ul.list-group
+						template(v-for="(list, index) in lists" )
+							li.list-group-item()
+								a(v-bind:href="'/list/edit/'+list.id") 
+									span.glyphicon.glyphicon-th-list
+									span.text {{list.title}}
+								span.glyphicon.glyphicon-remove.removeTodo(v-on:click="removeList(list.id)") {{" "}}
+								span.badge {{list.todos.length}}
+					a.btn.btn-primary.col-md-4.col-md-offset-4(href='/list/create') Make A New List!

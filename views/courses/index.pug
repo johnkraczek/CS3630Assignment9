@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+	p Courses Page
+	table
+		thead
+			tr
+				th Course Name
+				th Course Number
+				th Teacher
+				th Schedule
+				th CRN
+		tbody
+			each course in courses
+				tr
+					td= course.Name
+					td= course['course Number']
+					td= course.Teacher
+					td= course.Schedule
+					td= course.CRN
