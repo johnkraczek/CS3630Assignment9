@@ -10,14 +10,3 @@ let list = new Schema({
 	} ]
 });
 module.exports = list;
-
-
-// let toDoItem = new Schema({
-// 	checked:{ type:Boolean,reqired: true },
-// 	text:{ type:String, required:true }
-// });
-
-// const list = Schema({
-// 	title: { type:String, required: true },
-// 	todos:[ toDoItem ]
-// });

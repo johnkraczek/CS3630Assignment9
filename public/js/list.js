@@ -20,8 +20,8 @@
 		methods: {
 			fetchData: function () {
 				$.ajax({
-					url: '/list/all',
-					method: 'POST',
+					url: '/list/api/all',
+					method: 'GET',
 					dataType: 'json',
 					success: function (data) {
 						toDoApp.lists = data;
@@ -33,7 +33,7 @@
 					url:'/list/api/delete/'+id,
 					method: 'POST', 
 					success:function(data){
-						toastr['success']('Successfully Deleted that list', 'Saved');
+						toastr['error']('Successfully Deleted that list', 'Deleted');
 					}
 				});
 				toDoApp.lists.forEach(list=>{

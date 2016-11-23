@@ -55,7 +55,7 @@ router.get('/create', (req, res)=>{
 	router.post('/edit');
 })();
 
-router.post('/all', (req, res)=>{
+router.get('/api/all', (req, res)=>{
 		//go get the list from the DB
 		//put it in the list object
 		Promise.resolve()
