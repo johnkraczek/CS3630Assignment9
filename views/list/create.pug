@@ -1,15 +1,9 @@
 extends ../layout
 
-block styles
-	link(href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet")
-	link(href="/css/style.css", rel="stylesheet")
-
 block scripts
 	script(src='/js/todo.js')
 	script.
 		toDoApp.fetchData("#{id}")
-	script(src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js")
-	script(src='/js/lib/toastr.opt.js')
 
 
 block content

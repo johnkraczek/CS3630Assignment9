@@ -1,12 +1,12 @@
 h3.text-center {
-    margin: 4px;
+	margin: 4px;
 }
 span.removeTodo {
-    float: right;
+	float: right;
 	top:2px;
 }
 span.removeTodo:hover {
-    color: red;
+	color: red;
 	cursor: pointer;
 }
 .checked{

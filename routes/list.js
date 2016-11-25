@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const mongoose = require('mongoose');
 const list = mongoose.model('list');
+const user = mongoose.model('user');
 
 /* GET lists listing. */
 //handle the lists Index or / page

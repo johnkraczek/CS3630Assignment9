@@ -1,0 +1,21 @@
+extends ../layout
+
+block scripts
+	script(src='/js/login.js')
+
+block styles
+	link(href="/css/login.css", rel="stylesheet")
+
+block content
+	div.container
+		div.jumbotron.col-md-8.col-md-offset-2
+			.card.card-container
+				img.profile-img-card(src='//ssl.gstatic.com/accounts/ui/avatar_2x.png')
+				p.profile-name-card
+					div#login.form-signin
+						span.reauth-email
+						input.form-control(v-model="email", type='email', placeholder='Email address', required='', autofocus='')
+						input.form-control(v-model="password", type='password', placeholder='Password', required='')
+						button.btn.btn-primary(v-on:click='chkLogin') Sign In
+					span  No Account? 
+						a.forgot-password(href='/user/register') Register Here

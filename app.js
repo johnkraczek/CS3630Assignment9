@@ -5,6 +5,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
+const session = require('cookie-session')
 const bodyParser = require('body-parser');
 
 const appController = require('./app_start/appController');
@@ -30,6 +31,10 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(session({
+	name:'session',
+	secret: 'jlkndi34hn5665'
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 Promise.resolve()
