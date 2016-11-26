@@ -16,6 +16,6 @@ block content
 						span.reauth-email
 						input.form-control(v-model="email", type='email', placeholder='Email address', required='', autofocus='')
 						input.form-control(v-model="password", type='password', placeholder='Password', required='')
-						button.btn.btn-primary(v-on:click.stop='chkLogin', type='submit') Sign In
+						button.btn.btn-primary(v-on:click='chkLogin', type='submit') Sign In
 					span  No Account? 
 						a.forgot-password(href='/user/register') Register Here

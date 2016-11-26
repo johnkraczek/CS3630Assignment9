@@ -1,5 +1,8 @@
 extends ../layout
 
+block scripts
+	script(src='/js/register.js')
+
 block styles
 	link(href="/css/login.css", rel="stylesheet")
 
@@ -9,10 +12,12 @@ block content
 			.card.card-container
 				img.profile-img-card(src='//ssl.gstatic.com/accounts/ui/avatar_2x.png')
 				p.profile-name-card
-					form.form-signin
-						input.form-control(type='email', placeholder='Email Address', required='', autofocus='')
-						input.form-control(type='password', placeholder='Password', required='')
-						input.form-control(type='password', placeholder='Repeat Password', required='')
-						button.btn.btn-primary(type='submit') Register
+					form#register.form-signin
+						input.form-control(v-model='email.value', type='email', placeholder='Email Address', required='', autofocus='')
+						div.alert.alert-danger(role='alert' v-if="email.taken") That email has been taken, Try again.
+						input.form-control(v-model='password', type='password', placeholder='Password', required='')
+						input.form-control(v-model='chkPassword',type='password', placeholder='Repeat Password', required='')
+						button.btn.btn-primary(v-on:click.stop='chkRegistration', type='submit') Register
 					span Have an account? 
 						a.forgot-password(href='/user/login') Login Here
+					

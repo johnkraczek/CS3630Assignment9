@@ -9,18 +9,30 @@ router.get('/logout', (req, res, next)=>{
 	req.session.user = null;
 	res.redirect('/user/login');
 });
+// getters for data about things in the database or session. 
 
+// is the user currently logged in. 
 router.get('/logged', (req, res, next )=>{
 	res.writeHead(200, { 'Content-Type': 'application/json' });
 	res.end(JSON.stringify({ 'loggedIn': (req.session.user != null) }));
-	//res.sendStatus(200);
+});
+
+// is the email address already taken.
+router.post('/emailAvail', (req, res, next)=>{
+	user.count({ username: req.body.email.value }, (err, count)=>{
+		res.writeHead(200, { 'Content-Type': 'application/json' });
+		if(count>0)
+			res.end(JSON.stringify({ 'taken': true }));
+		else
+			res.end(JSON.stringify({ 'taken': false }));
+	});
 });
 
 router.get('/login', (req, res, next)=>{
 	if(req.session.user != null)
 		res.redirect('/list');
 	else
-		res.render('user/login');
+		res.render('user/login', { title: 'Login' });
 });
 
 router.post('/login',(req, res, next)=>{
@@ -58,19 +70,28 @@ router.post('/login',(req, res, next)=>{
 router.get('/register', (req, res, next)=>{
 
 	// render register page
-	res.render('user/register');
+	res.render('user/register', { title: 'Register' });
 });
 router.post('/register',(req, res, next)=>{
 	//check registration
 	// set registration
-	const newUser = new user();
-
-	bcrypt.genSalt(10, function(err, salt){
-		bcrypt.hash(req.body.password, salt, function(err, hash){
-			newUser.password = hash;
-			newUser.username = req.body.email;
-			newUser.save();
-		});
+	user.count({ username: req.body.email }, (err, count)=>{
+		if (count>0){
+			res.writeHead(200, { 'Content-Type': 'application/json' });
+			res.end(JSON.stringify({ 'auth': false }));
+		} else {
+			const newUser = new user();
+			req.session.user = newUser.id;
+			bcrypt.genSalt(10, function(err, salt){
+				bcrypt.hash(req.body.password, salt, function(err, hash){
+					newUser.password = hash;
+					newUser.username = req.body.email;
+					newUser.save();
+					res.writeHead(200, { 'Content-Type': 'application/json' });
+					res.end(JSON.stringify({ 'auth': true }));
+				});
+			});
+		}
 	});
 });
 
@@ -83,7 +104,7 @@ router.use((req, res, next)=>{
 
 (function(){
 	function Index(req,res){
-		res.render('user/index');
+		res.render('user/index', { title: 'User Details' });
 	}
 	router.get('/', Index);
 	router.get('/index', Index);

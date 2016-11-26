@@ -7,6 +7,7 @@ let list = new Schema({
 	todos:[ {
 		checked:{ type:Boolean },
 		text:{ type:String }
-	} ]
+	} ],
+	user: String
 });
 module.exports = list;
