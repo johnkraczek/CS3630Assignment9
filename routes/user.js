@@ -120,6 +120,7 @@ router.post('/api/updateUser', (req, res, next)=>{
 	user.findOne({ _id:req.session.user }, (err, doc)=>{
 		if(doc != null){
 			doc.display = req.body.display;
+			doc.save();
 
 			bcrypt.compare(req.body.oldPassword, doc.password, function(err, userAuthed) {
 				if(userAuthed){
