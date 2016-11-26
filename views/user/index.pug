@@ -6,22 +6,20 @@ block styles
 block scripts
 	script(src='/js/user.js')
 	script.
-		user.fetchdata();
+		user.fetchData();
 
 block content
 	div.container
 		div.jumbotron.col-md-8.col-md-offset-2
-			.card.card-container
-				img.profile-img-card(:src="email.image")
-				p.profile-name-card
-					form#user.form-signin
-						span.reauth-email
-						input.form-control(v-model="email.value", type='email', placeholder='Email address', required='' disabled)
-						input.form-control(v-model="display", type='text', placeholder='Display Name', required='', autofocus='')
-						input.form-control(v-model="oldpassword", type='password', placeholder='Old Password', required='')
-						input.form-control(v-model="newpassword", type='password', placeholder='New Password', required='')
-						input.form-control(v-model="passwordChk", type='password', placeholder='RetypePassword', required='')
-						button.btn.btn-primary(v-on:click='chkRegistration', type='submit') Save Info
-						br
-						a.btn.btn-default.half(href='/list') View your lists
-						a.btn.btn-default.half(href='/list/create') Create a new list
+			.card#user.card-container
+				img.profile-img-card(v-bind:src="email.image")
+				form#userform.form-signin
+					input.form-control(v-model="email.value",type='email', placeholder='Email address', required='' disabled)
+					input.form-control(v-model="display", type='text', placeholder='Display Name', required='', autofocus='')
+					input.form-control(v-model="oldPassword", type='password', placeholder='Old Password', required='')
+					input.form-control(v-model="newPassword",type='password', placeholder='New Password', required='')
+					input.form-control(v-model="chkPw",type='password', placeholder='RetypePassword', required='')
+					button.btn.btn-primary(v-on:click="chkSaveInfo" type='submit') Save Info
+					br
+					a.btn.btn-default.half(href='/list') View your lists
+					a.btn.btn-default.half(href='/list/create') Create a new list

@@ -1,20 +1,19 @@
 (function (exports) {
-	exports.register = new Vue({
+	exports.user = new Vue({
 		el: '#user',
 		data: {
 			display: '',
 			email: {
 				value:'',
-				taken:false,
-				image:'//ssl.gstatic.com/accounts/ui/avatar_2x.png'
+				image:''
 			},
-			newpassword: '',
-			oldpassword:'',
-			passwordChk: ''
+			newPassword: '',
+			oldPassword: '',
+			chkPw: ''
 		},
 		methods: {
-			chkRegistration:function(event){
-				const form = $('#register');
+			chkSaveInfo:function(){
+				const form = $('#userform');
 				if(!form[0].checkValidity())
 					form.find(':submit').click();
 				else{
@@ -22,19 +21,20 @@
 						toastr['warning']('Those passwords do not match or are not long enough', 'Please try again');
 					else {
 						$.ajax({
-							url: '/user/register/'+req.session.user,
+							url: '/user/api/updateUser',
 							method: 'POST',
 							dataType: 'json',
 							data: {
-								password:this.password,
-								display:this.display
+								oldPassword: this.oldPassword,
+								newPassword: this.newPassword,
+								display: this.display
 							},
 							success: function (data) {
 								if(data.auth){
-									toastr['success']('Successfully logged in!', 'Authenticated');
+									toastr['success']('Successfully updated your info!', 'Saved Info');
 									setTimeout(function(){ window.location.replace('/user/index'); }, 2350);
 								} else
-									toastr['warning']('There was a problem with your display name or password', 'Please try again');
+									toastr['warning']('There was a problem saving your info. <br>'+ data.msg, 'Please try again');
 							}
 						});
 					}
@@ -50,7 +50,7 @@
 						if(data.auth){
 							user.display = data.display;
 							user.email.value = data.email;
-							user.email.image = data.email.image;
+							user.email.image = 'https://www.gravatar.com/avatar/'+data.image+'?s=200&d=%2F%2Fssl.gstatic.com%2Faccounts%2Fui%2Favatar_2x.png';
 						}
 					}
 				});
@@ -58,7 +58,7 @@
 		},
 		computed:{
 			passwordChk: function(){
-				return (this.password === this.chkPassword) && this.password.length > 4;
+				return ((this.newPassword == this.chkPw) && (this.newPassword.length > 4));
 			}
 		},
 	});

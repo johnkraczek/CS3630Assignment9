@@ -3,7 +3,7 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const user = mongoose.model('user');
 const bcrypt = require('bcrypt');
-const md5 = require('md5');
+const crypto = require('crypto');
 
 
 router.get('/logout', (req, res, next)=>{
@@ -105,13 +105,43 @@ router.use((req, res, next)=>{
 });
 
 router.get('/api/fetchUser',(req, res, next)=>{
-	user.findOne({ _id:req.session.user }, (err, doc)=>{
+	user.findOne({ _id: req.session.user }, (err, doc)=>{
 		res.writeHead(200, { 'Content-Type': 'application/json' });
-		if(doc != null)
-			grav = md5.digest_s(doc.email.trim().toLowerCase());
-			res.end(JSON.stringify({ auth: true, email: doc.username, display: doc.display, 'email.image': grav }));
+		if(doc != null){
+			const grav = crypto.createHash('md5').update(doc.username.trim().toLowerCase()).digest('hex');
+			res.end(JSON.stringify({ auth: true, email: doc.username, display: doc.display, 'image': grav }));
+		}
 		else
 			res.end(JSON.stringify({ auth: false }));
+	});
+});
+
+router.post('/api/updateUser', (req, res, next)=>{
+	user.findOne({ _id:req.session.user }, (err, doc)=>{
+		if(doc != null){
+			doc.display = req.body.display;
+
+			bcrypt.compare(req.body.oldPassword, doc.password, function(err, userAuthed) {
+				if(userAuthed){
+					bcrypt.genSalt(10, function(err, salt){
+						bcrypt.hash(req.body.password, salt, function(err, hash){
+							doc.password = hash;
+							doc.save();
+							res.writeHead(200, { 'Content-Type': 'application/json' });
+							res.end(JSON.stringify({ 'auth': true }));
+						});
+					});
+				}
+				else {
+					res.writeHead(200, { 'Content-Type': 'application/json' });
+					res.end(JSON.stringify({ auth: false, msg: 'old Password not the same' }));
+				}
+			});
+		} else {
+			res.writeHead(200, { 'Content-Type': 'application/json' });
+			res.end(JSON.stringify({ auth: false, msg: 'Unable to find user account. ' }));
+		}
+
 	});
 });
 
