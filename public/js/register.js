@@ -16,6 +16,7 @@
 	exports.register = new Vue({
 		el: '#register',
 		data: {
+			display: '',
 			email: {
 				value:'',
 				taken:false
@@ -42,7 +43,8 @@
 							dataType: 'json',
 							data: {
 								email:this.email.value,
-								password:this.password
+								password:this.password,
+								display:this.display
 							},
 							success: function (data) {
 								if(data.auth){

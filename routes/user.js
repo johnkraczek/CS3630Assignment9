@@ -3,6 +3,7 @@ var router = express.Router();
 const mongoose = require('mongoose');
 const user = mongoose.model('user');
 const bcrypt = require('bcrypt');
+const md5 = require('md5');
 
 
 router.get('/logout', (req, res, next)=>{
@@ -86,6 +87,7 @@ router.post('/register',(req, res, next)=>{
 				bcrypt.hash(req.body.password, salt, function(err, hash){
 					newUser.password = hash;
 					newUser.username = req.body.email;
+					newUser.display = req.body.display;
 					newUser.save();
 					res.writeHead(200, { 'Content-Type': 'application/json' });
 					res.end(JSON.stringify({ 'auth': true }));
@@ -100,6 +102,17 @@ router.use((req, res, next)=>{
 		res.redirect('/user/login');
 	else
 		next();
+});
+
+router.get('/api/fetchUser',(req, res, next)=>{
+	user.findOne({ _id:req.session.user }, (err, doc)=>{
+		res.writeHead(200, { 'Content-Type': 'application/json' });
+		if(doc != null)
+			grav = md5.digest_s(doc.email.trim().toLowerCase());
+			res.end(JSON.stringify({ auth: true, email: doc.username, display: doc.display, 'email.image': grav }));
+		else
+			res.end(JSON.stringify({ auth: false }));
+	});
 });
 
 (function(){

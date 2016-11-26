@@ -3,10 +3,25 @@ extends ../layout
 block styles
 	link(href="/css/login.css", rel="stylesheet")
 
+block scripts
+	script(src='/js/user.js')
+	script.
+		user.fetchdata();
+
 block content
 	div.container
 		div.jumbotron.col-md-8.col-md-offset-2
 			.card.card-container
-				img#profile-img.profile-img-card(src='//ssl.gstatic.com/accounts/ui/avatar_2x.png')
-				p#profile-name.profile-name-card
-					p Name
+				img.profile-img-card(:src="email.image")
+				p.profile-name-card
+					form#user.form-signin
+						span.reauth-email
+						input.form-control(v-model="email.value", type='email', placeholder='Email address', required='' disabled)
+						input.form-control(v-model="display", type='text', placeholder='Display Name', required='', autofocus='')
+						input.form-control(v-model="oldpassword", type='password', placeholder='Old Password', required='')
+						input.form-control(v-model="newpassword", type='password', placeholder='New Password', required='')
+						input.form-control(v-model="passwordChk", type='password', placeholder='RetypePassword', required='')
+						button.btn.btn-primary(v-on:click='chkRegistration', type='submit') Save Info
+						br
+						a.btn.btn-default.half(href='/list') View your lists
+						a.btn.btn-default.half(href='/list/create') Create a new list
