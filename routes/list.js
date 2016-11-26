@@ -6,6 +6,13 @@ const user = mongoose.model('user');
 
 /* GET lists listing. */
 //handle the lists Index or / page
+router.use((req, res, next)=>{
+	if(req.session.user == null)
+		res.redirect('/user/login');
+	else
+		next();
+});
+
 (function(){
 	function Index(req,res){
 		res.render('list/list', { title: 'List Application' });

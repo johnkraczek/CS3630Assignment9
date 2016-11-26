@@ -12,10 +12,10 @@ block content
 			.card.card-container
 				img.profile-img-card(src='//ssl.gstatic.com/accounts/ui/avatar_2x.png')
 				p.profile-name-card
-					div#login.form-signin
+					form#login.form-signin(method='POST')
 						span.reauth-email
 						input.form-control(v-model="email", type='email', placeholder='Email address', required='', autofocus='')
 						input.form-control(v-model="password", type='password', placeholder='Password', required='')
-						button.btn.btn-primary(v-on:click='chkLogin') Sign In
+						button.btn.btn-primary(v-on:click.stop='chkLogin', type='submit') Sign In
 					span  No Account? 
 						a.forgot-password(href='/user/register') Register Here
