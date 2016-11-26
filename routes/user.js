@@ -134,7 +134,7 @@ router.post('/api/updateUser', (req, res, next)=>{
 				}
 				else {
 					res.writeHead(200, { 'Content-Type': 'application/json' });
-					res.end(JSON.stringify({ auth: false, msg: 'old Password not the same' }));
+					res.end(JSON.stringify({ auth: false, msg: 'Old Password Incorrect' }));
 				}
 			});
 		} else {
